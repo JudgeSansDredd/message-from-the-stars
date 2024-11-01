@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './Routes/__root'
 import { Route as IndexImport } from './Routes/index'
 import { Route as AlienIndexImport } from './Routes/alien/index'
+import { Route as AlienEnterCodeImport } from './Routes/alien/enter-code'
 
 // Create/Update Routes
 
@@ -28,6 +29,12 @@ const AlienIndexRoute = AlienIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AlienEnterCodeRoute = AlienEnterCodeImport.update({
+  id: '/alien/enter-code',
+  path: '/alien/enter-code',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -37,6 +44,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/alien/enter-code': {
+      id: '/alien/enter-code'
+      path: '/alien/enter-code'
+      fullPath: '/alien/enter-code'
+      preLoaderRoute: typeof AlienEnterCodeImport
       parentRoute: typeof rootRoute
     }
     '/alien/': {
@@ -53,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alien/enter-code': typeof AlienEnterCodeRoute
   '/alien': typeof AlienIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alien/enter-code': typeof AlienEnterCodeRoute
   '/alien': typeof AlienIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/alien/enter-code': typeof AlienEnterCodeRoute
   '/alien/': typeof AlienIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/alien'
+  fullPaths: '/' | '/alien/enter-code' | '/alien'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/alien'
-  id: '__root__' | '/' | '/alien/'
+  to: '/' | '/alien/enter-code' | '/alien'
+  id: '__root__' | '/' | '/alien/enter-code' | '/alien/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlienEnterCodeRoute: typeof AlienEnterCodeRoute
   AlienIndexRoute: typeof AlienIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlienEnterCodeRoute: AlienEnterCodeRoute,
   AlienIndexRoute: AlienIndexRoute,
 }
 
@@ -97,11 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/alien/enter-code",
         "/alien/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/alien/enter-code": {
+      "filePath": "alien/enter-code.tsx"
     },
     "/alien/": {
       "filePath": "alien/index.tsx"
