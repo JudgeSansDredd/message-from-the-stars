@@ -1,18 +1,10 @@
-import Fastify from "fastify";
-import GameRoutes from "./Routes/Game.Routes";
+import "dotenv/config";
+import app from "./src/app";
 
-const fastify = Fastify({ logger: true });
+// Exporting so we can use this in the test
+export const port = process.env.PORT || 3000;
 
-fastify.get("/", (req, res) => {
-  return { hello: "world" };
-});
-
-fastify.register(GameRoutes, { prefix: "/game" });
-
-fastify.listen({ port: 3000 }, (err, address) => {
-  if (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
-  fastify.log.info(`server listening on ${address}`);
+// Start server
+app.listen(port, () => {
+  console.log(`Application available at http://localhost:${port}`);
 });
