@@ -13,6 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as AlienIndexImport } from './routes/alien/index'
+import { Route as ScientistLoginImport } from './routes/scientist/login'
+import { Route as AlienLoginImport } from './routes/alien/login'
 import { Route as AlienEnterCodeImport } from './routes/alien/enter-code'
 
 // Create/Update Routes
@@ -26,6 +28,18 @@ const IndexRoute = IndexImport.update({
 const AlienIndexRoute = AlienIndexImport.update({
   id: '/alien/',
   path: '/alien/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ScientistLoginRoute = ScientistLoginImport.update({
+  id: '/scientist/login',
+  path: '/scientist/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AlienLoginRoute = AlienLoginImport.update({
+  id: '/alien/login',
+  path: '/alien/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +67,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlienEnterCodeImport
       parentRoute: typeof rootRoute
     }
+    '/alien/login': {
+      id: '/alien/login'
+      path: '/alien/login'
+      fullPath: '/alien/login'
+      preLoaderRoute: typeof AlienLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/scientist/login': {
+      id: '/scientist/login'
+      path: '/scientist/login'
+      fullPath: '/scientist/login'
+      preLoaderRoute: typeof ScientistLoginImport
+      parentRoute: typeof rootRoute
+    }
     '/alien/': {
       id: '/alien/'
       path: '/alien'
@@ -68,12 +96,16 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alien/enter-code': typeof AlienEnterCodeRoute
+  '/alien/login': typeof AlienLoginRoute
+  '/scientist/login': typeof ScientistLoginRoute
   '/alien': typeof AlienIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alien/enter-code': typeof AlienEnterCodeRoute
+  '/alien/login': typeof AlienLoginRoute
+  '/scientist/login': typeof ScientistLoginRoute
   '/alien': typeof AlienIndexRoute
 }
 
@@ -81,27 +113,44 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/alien/enter-code': typeof AlienEnterCodeRoute
+  '/alien/login': typeof AlienLoginRoute
+  '/scientist/login': typeof ScientistLoginRoute
   '/alien/': typeof AlienIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/alien/enter-code' | '/alien'
+  fullPaths:
+    | '/'
+    | '/alien/enter-code'
+    | '/alien/login'
+    | '/scientist/login'
+    | '/alien'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/alien/enter-code' | '/alien'
-  id: '__root__' | '/' | '/alien/enter-code' | '/alien/'
+  to: '/' | '/alien/enter-code' | '/alien/login' | '/scientist/login' | '/alien'
+  id:
+    | '__root__'
+    | '/'
+    | '/alien/enter-code'
+    | '/alien/login'
+    | '/scientist/login'
+    | '/alien/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AlienEnterCodeRoute: typeof AlienEnterCodeRoute
+  AlienLoginRoute: typeof AlienLoginRoute
+  ScientistLoginRoute: typeof ScientistLoginRoute
   AlienIndexRoute: typeof AlienIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AlienEnterCodeRoute: AlienEnterCodeRoute,
+  AlienLoginRoute: AlienLoginRoute,
+  ScientistLoginRoute: ScientistLoginRoute,
   AlienIndexRoute: AlienIndexRoute,
 }
 
@@ -117,6 +166,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/alien/enter-code",
+        "/alien/login",
+        "/scientist/login",
         "/alien/"
       ]
     },
@@ -125,6 +176,12 @@ export const routeTree = rootRoute
     },
     "/alien/enter-code": {
       "filePath": "alien/enter-code.tsx"
+    },
+    "/alien/login": {
+      "filePath": "alien/login.tsx"
+    },
+    "/scientist/login": {
+      "filePath": "scientist/login.tsx"
     },
     "/alien/": {
       "filePath": "alien/index.tsx"
