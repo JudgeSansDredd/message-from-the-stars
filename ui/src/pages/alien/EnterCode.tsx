@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import Card from "../../Components/Card";
+import Card from "../../components/Card";
 import { getAlienCodeQueryOptions } from "../../Queries/Alien";
 
 export default function EnterCode() {

@@ -1,5 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
-import NavBar from "../Components/NavBar";
+import NavBar from "../components/NavBar";
 
 export default function MainLayout() {
   return (
