@@ -1,4 +1,4 @@
-import { getLetterColor } from "../Utils/functions";
+import { getLetterColor } from "../utils/functions";
 
 interface PropType {
   letter: string;

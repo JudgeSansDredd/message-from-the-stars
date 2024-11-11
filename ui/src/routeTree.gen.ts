@@ -10,10 +10,10 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './Routes/__root'
-import { Route as IndexImport } from './Routes/index'
-import { Route as AlienIndexImport } from './Routes/alien/index'
-import { Route as AlienEnterCodeImport } from './Routes/alien/enter-code'
+import { Route as rootRoute } from './routes/__root'
+import { Route as IndexImport } from './routes/index'
+import { Route as AlienIndexImport } from './routes/alien/index'
+import { Route as AlienEnterCodeImport } from './routes/alien/enter-code'
 
 // Create/Update Routes
 

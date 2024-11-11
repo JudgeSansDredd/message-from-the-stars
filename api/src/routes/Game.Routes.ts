@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { getAlienCode } from "../GamePieces/functions";
+import { getAlienCode } from "../gamePieces/functions";
 
 // Mounted on /api/game
 const router = Router();

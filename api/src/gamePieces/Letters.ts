@@ -1,4 +1,4 @@
-import { LetterColorSchema } from "../Types/AlienCode.Validation";
+import { LetterColorSchema } from "../types/AlienCode.Validation";
 
 export const greenLetters = ["A", "E", "I", "L", "N", "O", "R", "S", "T"];
 export const blackLetters = [

@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import axios from "axios";
-import { AlienCodeSchema } from "../Types/Alien.Validation";
+import { AlienCodeSchema } from "../types/Alien.Validation";
 
 export const getAlienCodeQueryOptions = () =>
   queryOptions({

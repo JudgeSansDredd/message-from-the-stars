@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import EnterCode from "../../Pages/Alien/EnterCode";
-import { getAlienCodeQueryOptions } from "../../Queries/Alien";
+import EnterCode from "../../pages/alien/EnterCode";
+import { getAlienCodeQueryOptions } from "../../queries/Alien";
 
 export const Route = createFileRoute("/alien/enter-code")({
   loader: ({ context }) => {

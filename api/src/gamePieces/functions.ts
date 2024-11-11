@@ -1,7 +1,7 @@
 import {
   AlienCodeSchema,
   LetterColorSchema,
-} from "../Types/AlienCode.Validation";
+} from "../types/AlienCode.Validation";
 import {
   amplifyPossibleLetters,
   blackLetters,

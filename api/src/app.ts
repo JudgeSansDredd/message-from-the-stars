@@ -1,7 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express, { Router } from "express";
-import apiRouter from "./Routes";
+import apiRouter from "./routes";
 
 const BASE_PATH = process.env.API_BASEPATH || "";
 console.log("🚀 ~ BASE_PATH:", BASE_PATH);
