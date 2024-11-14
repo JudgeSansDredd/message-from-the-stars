@@ -1,6 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express, { Router } from "express";
+import session from "express-session";
 import apiRouter from "./routes";
 
 const BASE_PATH = process.env.API_BASEPATH || "";
@@ -12,6 +13,25 @@ const app = express();
 app.use(
   cors({
     origin: process.env.ALLOWED_ORIGINS_COMMA_SEPARATED?.split(",") || [],
+  })
+);
+
+// Session configuration
+declare module "express-session" {
+  interface SessionData {
+    userId: string;
+    gameId: string;
+  }
+}
+app.use(
+  session({
+    secret: process.env.APP_SESSION_SECRET || "secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.APP_SESSION_USE_HTTPS === "true",
+      maxAge: 1000 * 60 * 60 * 6, // 6 hours
+    },
   })
 );
 

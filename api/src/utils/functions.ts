@@ -1,7 +1,4 @@
-import {
-  AlienCodeSchema,
-  LetterColorSchema,
-} from "../types/AlienCode.Validation";
+import { AlienCodeSchema, LetterColorSchema } from "../validation/alienCode";
 import {
   amplifyPossibleLetters,
   blackLetters,
@@ -9,7 +6,7 @@ import {
   redLetters,
   suspicionPossibleLetters,
   trustPossibleLetters,
-} from "./Letters";
+} from "./letters";
 
 export function getAlienCode(): AlienCodeSchema {
   const getLetter = (type: LetterColorSchema[], used: string[]) => {

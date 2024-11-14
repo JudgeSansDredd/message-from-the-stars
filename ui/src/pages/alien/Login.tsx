@@ -1,6 +1,24 @@
-import { Link } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
+import axios from "axios";
+import { MouseEventHandler } from "react";
+import { GameSchema } from "../../types/Alien.Validation";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const createGameMutation = useMutation({
+    mutationKey: ["createGame"],
+    mutationFn: () => axios.post<GameSchema>("/game").then((res) => res.data),
+    onSuccess: () => {
+      navigate({ to: "/alien/game" });
+    },
+  });
+
+  const handleContactClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    createGameMutation.mutate();
+  };
+
   return (
     <div className="flex flex-col space-y-4 items-center">
       <div className="flex flex-col space-y-0">
@@ -9,7 +27,10 @@ export default function Login() {
         </div>
         <div className="text-xs w-full text-center">(Create a new game)</div>
       </div>
-      <button className="w-content text-white bg-gradient-to-br from-fuchsia-300 to-fuchsia-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:focus:ring-blue-800">
+      <button
+        onClick={handleContactClick}
+        className="w-content text-white bg-gradient-to-br from-fuchsia-300 to-fuchsia-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:focus:ring-blue-800"
+      >
         Contact Earth
       </button>
       <Link
