@@ -34,6 +34,7 @@ export default class GameController {
   }
 
   public async createGame(userId: string): Promise<Game> {
+    console.log("creating game");
     const alienCode = getAlienCode();
     const roomCode = await this.getRoomCode();
 

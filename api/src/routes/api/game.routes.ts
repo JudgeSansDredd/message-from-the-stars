@@ -10,6 +10,7 @@ const gameController = new GameController();
 
 // Create a new game (and maybe a new alien)
 router.post("/", async (req: Request, res: Response) => {
+  console.log("Creating game");
   let params: CreateGameSchema;
   try {
     params = CreateGameSchema.parse(req.body);

@@ -1,22 +1,46 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
-import { MouseEventHandler } from "react";
+import {
+  ChangeEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from "react";
+import { getAuthQueryParams } from "../../queries/auth";
 import { GameSchema } from "../../types/Alien.Validation";
 
 export default function Login() {
+  const [name, setName] = useState<string>("");
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const createGameMutation = useMutation({
     mutationKey: ["createGame"],
-    mutationFn: () => axios.post<GameSchema>("/game").then((res) => res.data),
+    mutationFn: () =>
+      axios.post<GameSchema>("/game", { name }).then((res) => res.data),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: getAuthQueryParams().queryKey,
+      });
       navigate({ to: "/alien/game" });
     },
   });
+  const authQuery = useQuery(getAuthQueryParams());
+
+  useEffect(() => {
+    if (!authQuery.isError && authQuery.data) {
+      setName(authQuery.data.name);
+    }
+  }, [authQuery.data, authQuery.isError]);
 
   const handleContactClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     createGameMutation.mutate();
+  };
+
+  const onNameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    e.preventDefault();
+    setName(e.target.value);
   };
 
   return (
@@ -27,6 +51,20 @@ export default function Login() {
         </div>
         <div className="text-xs w-full text-center">(Create a new game)</div>
       </div>
+      <label
+        htmlFor="name"
+        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >
+        Name
+      </label>
+      <input
+        type="text"
+        id="name"
+        className="max-w-md text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Fblthp"
+        onChange={onNameChange}
+        required
+      />
       <button
         onClick={handleContactClick}
         className="w-content text-white bg-gradient-to-br from-fuchsia-300 to-fuchsia-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:focus:ring-blue-800"

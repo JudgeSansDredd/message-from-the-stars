@@ -16,7 +16,6 @@ import { Route as AlienIndexImport } from './routes/alien/index'
 import { Route as ScientistLoginImport } from './routes/scientist/login'
 import { Route as AlienLoginImport } from './routes/alien/login'
 import { Route as AlienGameImport } from './routes/alien/game'
-import { Route as AlienEnterCodeImport } from './routes/alien/enter-code'
 
 // Create/Update Routes
 
@@ -50,12 +49,6 @@ const AlienGameRoute = AlienGameImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AlienEnterCodeRoute = AlienEnterCodeImport.update({
-  id: '/alien/enter-code',
-  path: '/alien/enter-code',
-  getParentRoute: () => rootRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -65,13 +58,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/alien/enter-code': {
-      id: '/alien/enter-code'
-      path: '/alien/enter-code'
-      fullPath: '/alien/enter-code'
-      preLoaderRoute: typeof AlienEnterCodeImport
       parentRoute: typeof rootRoute
     }
     '/alien/game': {
@@ -109,7 +95,6 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/alien/enter-code': typeof AlienEnterCodeRoute
   '/alien/game': typeof AlienGameRoute
   '/alien/login': typeof AlienLoginRoute
   '/scientist/login': typeof ScientistLoginRoute
@@ -118,7 +103,6 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/alien/enter-code': typeof AlienEnterCodeRoute
   '/alien/game': typeof AlienGameRoute
   '/alien/login': typeof AlienLoginRoute
   '/scientist/login': typeof ScientistLoginRoute
@@ -128,7 +112,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/alien/enter-code': typeof AlienEnterCodeRoute
   '/alien/game': typeof AlienGameRoute
   '/alien/login': typeof AlienLoginRoute
   '/scientist/login': typeof ScientistLoginRoute
@@ -139,23 +122,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/alien/enter-code'
     | '/alien/game'
     | '/alien/login'
     | '/scientist/login'
     | '/alien'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/alien/enter-code'
-    | '/alien/game'
-    | '/alien/login'
-    | '/scientist/login'
-    | '/alien'
+  to: '/' | '/alien/game' | '/alien/login' | '/scientist/login' | '/alien'
   id:
     | '__root__'
     | '/'
-    | '/alien/enter-code'
     | '/alien/game'
     | '/alien/login'
     | '/scientist/login'
@@ -165,7 +140,6 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AlienEnterCodeRoute: typeof AlienEnterCodeRoute
   AlienGameRoute: typeof AlienGameRoute
   AlienLoginRoute: typeof AlienLoginRoute
   ScientistLoginRoute: typeof ScientistLoginRoute
@@ -174,7 +148,6 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AlienEnterCodeRoute: AlienEnterCodeRoute,
   AlienGameRoute: AlienGameRoute,
   AlienLoginRoute: AlienLoginRoute,
   ScientistLoginRoute: ScientistLoginRoute,
@@ -192,7 +165,6 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/alien/enter-code",
         "/alien/game",
         "/alien/login",
         "/scientist/login",
@@ -201,9 +173,6 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/alien/enter-code": {
-      "filePath": "alien/enter-code.tsx"
     },
     "/alien/game": {
       "filePath": "alien/game.tsx"

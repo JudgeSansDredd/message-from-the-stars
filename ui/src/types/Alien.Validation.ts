@@ -13,3 +13,6 @@ export const GameSchema = z.object({
   alienCode: AlienCodeSchema,
 });
 export type GameSchema = z.infer<typeof GameSchema>;
+
+export const LetterColorSchema = z.enum(["green", "black", "red"]);
+export type LetterColorSchema = z.infer<typeof LetterColorSchema>;

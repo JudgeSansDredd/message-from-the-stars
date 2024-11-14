@@ -20,6 +20,17 @@ export default class Usercontroller {
     id?: string,
     name?: string
   ): Promise<User> {
+    console.log("Updating user or creating new user");
+
+    if (!id) {
+      return this.prisma.user.create({
+        data: {
+          role,
+          name,
+        },
+      });
+    }
+
     // Check if user id returns a user
     const user = await this.prisma.user.findUnique({
       where: {
@@ -31,6 +42,7 @@ export default class Usercontroller {
     if (!user) {
       return this.prisma.user.create({
         data: {
+          id,
           role,
           name,
         },
