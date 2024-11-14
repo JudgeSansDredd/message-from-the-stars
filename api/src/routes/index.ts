@@ -1,9 +1,9 @@
 import { Router } from "express";
-import gameRouter from "./game.routes";
+import apiRouter from "./api";
 
 const router = Router();
 
 // Mounted on /api
-router.use("/game", gameRouter);
+router.use("/api", apiRouter);
 
 export default router;

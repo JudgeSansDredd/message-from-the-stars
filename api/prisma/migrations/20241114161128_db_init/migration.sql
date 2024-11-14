@@ -4,6 +4,7 @@ CREATE TYPE "Role" AS ENUM ('ALIEN', 'SCIENTIST');
 -- CreateTable
 CREATE TABLE "Game" (
     "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "roomCode" TEXT NOT NULL,
     "alienCode" JSONB NOT NULL,
 
@@ -11,18 +12,16 @@ CREATE TABLE "Game" (
 );
 
 -- CreateTable
-CREATE TABLE "Player" (
+CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
-    "gameId" TEXT NOT NULL,
+    "gameId" TEXT,
     "role" "Role" NOT NULL,
 
-    CONSTRAINT "Player_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Game_roomCode_key" ON "Game"("roomCode");
 
 -- AddForeignKey
-ALTER TABLE "Player" ADD CONSTRAINT "Player_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -4,9 +4,6 @@ import express, { Router } from "express";
 import session from "express-session";
 import apiRouter from "./routes";
 
-const BASE_PATH = process.env.API_BASEPATH || "";
-console.log("🚀 ~ BASE_PATH:", BASE_PATH);
-
 const app = express();
 
 // Allow cors from localhost:8000
@@ -43,7 +40,7 @@ const appRouter = Router();
 
 // Nest api router under basepath
 // * This allows us to have the /api prefix on all routes and create new prefixes easily
-appRouter.use(BASE_PATH, apiRouter);
+appRouter.use(apiRouter);
 
 // Utilize router
 app.use(appRouter);
