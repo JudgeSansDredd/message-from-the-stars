@@ -1,29 +1,24 @@
-import { PrismaClient, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import PrismaClientSingleton from "../utils/PrismaClientSingleton";
 import { RoleSchema } from "../utils/validation";
 
 export default class Usercontroller {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = PrismaClientSingleton.getInstance();
-  }
-
-  public async getUserById(id: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
+  public static async getUserById(id: string): Promise<User | null> {
+    const prisma = PrismaClientSingleton.getInstance();
+    return prisma.user.findUnique({
       where: { id },
     });
   }
 
-  public async updateUserOrCreate(
+  public static async updateUserOrCreate(
     role: RoleSchema,
     id?: string,
     name?: string
   ): Promise<User> {
-    console.log("Updating user or creating new user");
+    const prisma = PrismaClientSingleton.getInstance();
 
     if (!id) {
-      return this.prisma.user.create({
+      return prisma.user.create({
         data: {
           role,
           name,
@@ -32,7 +27,7 @@ export default class Usercontroller {
     }
 
     // Check if user id returns a user
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         id,
       },
@@ -40,7 +35,7 @@ export default class Usercontroller {
 
     // If user doesn't exist, create a new user
     if (!user) {
-      return this.prisma.user.create({
+      return prisma.user.create({
         data: {
           id,
           role,
@@ -51,7 +46,7 @@ export default class Usercontroller {
 
     // Update user role and name if it's different
     if (user.role !== role || (name && user.name !== name)) {
-      return this.prisma.user.update({
+      return prisma.user.update({
         where: {
           id,
         },

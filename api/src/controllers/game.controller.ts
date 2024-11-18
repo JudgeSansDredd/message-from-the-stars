@@ -1,16 +1,11 @@
-import { Game, PrismaClient } from "@prisma/client";
+import { Game } from "@prisma/client";
 import { getAlienCode } from "../utils/functions";
 import PrismaClientSingleton from "../utils/PrismaClientSingleton";
 
 export default class GameController {
-  private prisma: PrismaClient;
-
-  constructor() {
-    this.prisma = PrismaClientSingleton.getInstance();
-  }
-
-  public async getGameByUserId(userId: string): Promise<Game | null> {
-    const user = await this.prisma.user.findUnique({
+  public static async getGameByUserId(userId: string): Promise<Game | null> {
+    const prisma = PrismaClientSingleton.getInstance();
+    const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { game: true },
     });
@@ -18,9 +13,9 @@ export default class GameController {
     return user.game;
   }
 
-  private async getRoomCode(): Promise<string> {
+  private static async getRoomCode(): Promise<string> {
     const prisma = PrismaClientSingleton.getInstance();
-    const roomCodes = (await this.prisma.game.findMany()).map(
+    const roomCodes = (await prisma.game.findMany()).map(
       (game) => game.roomCode
     );
 
@@ -33,19 +28,19 @@ export default class GameController {
     return roomCode;
   }
 
-  public async createGame(userId: string): Promise<Game> {
-    console.log("creating game");
+  public static async createGame(userId: string): Promise<Game> {
     const alienCode = getAlienCode();
-    const roomCode = await this.getRoomCode();
+    const roomCode = await GameController.getRoomCode();
+    const prisma = PrismaClientSingleton.getInstance();
 
-    const game = await this.prisma.game.create({
+    const game = await prisma.game.create({
       data: {
         roomCode,
         alienCode,
       },
     });
 
-    await this.prisma.user.update({
+    await prisma.user.update({
       where: { id: userId },
       data: {
         game: {
@@ -57,30 +52,34 @@ export default class GameController {
     return game;
   }
 
-  public async getGameByRoomCode(roomCode: string): Promise<Game | null> {
-    return this.prisma.game.findFirst({
+  public static async getGameByRoomCode(
+    roomCode: string
+  ): Promise<Game | null> {
+    const prisma = PrismaClientSingleton.getInstance();
+    return prisma.game.findFirst({
       where: { roomCode },
     });
   }
 
-  public async logIntoGameAsScientist(
+  public static async logIntoGameAsScientist(
     roomCode: string,
     userId: string
   ): Promise<Game | null> {
+    const prisma = PrismaClientSingleton.getInstance();
     // Find the game by room code
-    const game = await this.prisma.game.findFirst({
+    const game = await prisma.game.findFirst({
       where: { roomCode },
     });
     if (!game || !game.acceptingScientists) return null;
 
     // Find the user
-    const user = await this.prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
       where: { id: userId },
     });
     if (!user || user.role !== "SCIENTIST") return null;
 
     // Log the user into the game
-    await this.prisma.user.update({
+    await prisma.user.update({
       where: { id: userId },
       data: {
         game: {
