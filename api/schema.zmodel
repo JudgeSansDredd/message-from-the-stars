@@ -1,0 +1,29 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ALIEN
+  SCIENTIST
+}
+
+model Game {
+  id                  String  @id() @default(uuid())
+  roomCode            String  @unique()
+  acceptingScientists Boolean @default(true)
+  alienCode           Json
+  users               User[]
+}
+
+model User {
+  id     String  @id() @default(uuid())
+  name   String  @default("")
+  role   Role
+  gameId String?
+  game   Game?   @relation(fields: [gameId], references: [id])
+}
